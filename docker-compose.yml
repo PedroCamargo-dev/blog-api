@@ -4,7 +4,7 @@ services:
   app:
     build: .
     entrypoint: .docker/entrypoint.sh
-    container_name: prismaapi-app
+    container_name: blog-api-app
     ports:
       - "3000:3000"
       - "5555:5555"
@@ -15,7 +15,7 @@ services:
 
   db:
     build: .docker/postgres
-    container_name: prismaapi-db
+    container_name: blog-api-db
     restart: always
     tty: true
     ports:
@@ -24,4 +24,4 @@ services:
       - .docker/dbdata:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=prismaapi
+      - POSTGRES_DB=blog

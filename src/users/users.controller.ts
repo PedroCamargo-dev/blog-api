@@ -8,14 +8,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 
 @ApiTags('Users')
-@Controller('users')
+@Controller('')
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
   @ApiResponse({ status: 409, description: 'Conflito de email' })
   @ApiForbiddenResponse({ description: 'Acesso negado.' })
   @IsPublic()
-  @Post()
+  @Post('register')
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
@@ -27,7 +27,7 @@ export class UsersController {
   }
 
   @ApiForbiddenResponse({ description: 'Acesso negado.' })
-  @Get()
+  @Get('users')
   findAll() {
     return this.usersService.findAll();
   }
