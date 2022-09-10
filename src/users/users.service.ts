@@ -13,36 +13,33 @@ export class UsersService {
     return this.repository.create(createUserDto);
   }
 
-  findAll() {
-    //throw new UnauthorizedError('Nao autorizado.');
-    return this.repository.findAll();
-  }
-
   async findByEmail(email: string): Promise<UserEntity> {
     const user = await this.repository.findByEmail(email);
 
     if (!user) {
-      throw new NotFoundError('email nao encontrado.');
-    }
-
-    return user;
-  }
-
-  async findOne(id: number): Promise<UserEntity> {
-    const user = await this.repository.findOne(id);
-
-    if (!user) {
-      throw new NotFoundError('Usuario nao encontrado.');
+      throw new NotFoundError('Email or password not found.');
     }
 
     return user;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return this.repository.update(id, updateUserDto);
+    const user = this.repository.update(id, updateUserDto);
+
+    if (!user) {
+      throw new NotFoundError('User not found or deleted.')
+    }
+
+    return user;
   }
 
   remove(id: number) {
-    return this.repository.remove(id);
+    const user = this.repository.remove(id);
+
+    if (!user) {
+      throw new NotFoundError('User not found or deleted.')
+    }
+
+    return user;
   }
 }

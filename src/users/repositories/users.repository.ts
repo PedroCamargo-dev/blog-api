@@ -27,60 +27,28 @@ export class UsersRepository {
     }
   }
 
-  async findAll(): Promise<UserEntity[]> {
-    return await this.prisma.user.findMany({
-      include: {
-        posts: {
-          select: {
-            title: true,
-            createdAt: true,
-          },
-        },
-      },
-    });
-  }
-
   async findByEmail(email: string): Promise<UserEntity> {
     return this.prisma.user.findUnique({
       where: { email }
     })
   }
 
-  async findOne(id: number): Promise<UserEntity> {
-    return this.prisma.user.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        posts: {
-          select: {
-            title: true,
-            createdAt: true,
-          },
-        },
-      },
-    });
-  }
-
   async update(id: number, updateUserDto: UpdateUserDto): Promise<UserEntity> {
-    return this.prisma.user.update({
+    const updatedUser = await this.prisma.user.update({
       where: {
         id,
       },
-      data: updateUserDto,
-      include: {
-        posts: {
-          select: {
-            title: true,
-            createdAt: true,
-          },
-        },
-      },
+      data: updateUserDto
     });
+
+    return {
+      ...updatedUser,
+      password: undefined,
+    }
   }
 
   async remove(id: number): Promise<UserEntity> {
-    return this.prisma.user.delete({
+    return await this.prisma.user.delete({
       where: {
         id,
       },
