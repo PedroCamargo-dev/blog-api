@@ -22,11 +22,12 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  //arrumar retorno da senha
   @Get('/profile')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   profile(@Request() req: AuthRequet) {
-    return req.user
+    return this.usersService.findUser(req.user.id)
   }
 
   @ApiForbiddenResponse({ description: 'Acesso negado.' })

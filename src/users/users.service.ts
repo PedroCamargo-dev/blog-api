@@ -13,6 +13,16 @@ export class UsersService {
     return this.repository.create(createUserDto);
   }
 
+  findUser(id: number) {
+    const user = this.repository.findUser(id);
+
+    if (!user) {
+      throw new NotFoundError('User not found or deleted.')
+    }
+
+    return user;
+  }
+
   async findByEmail(email: string): Promise<UserEntity> {
     const user = await this.repository.findByEmail(email);
 

@@ -33,6 +33,15 @@ export class UsersRepository {
     })
   }
 
+  async findUser(id: number): Promise<UserEntity> {
+    return await this.prisma.user.findUnique({
+      where: { id },
+      include: {
+        posts: true,
+      }
+    })
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto): Promise<UserEntity> {
     const updatedUser = await this.prisma.user.update({
       where: {
