@@ -7,8 +7,8 @@ import { PostsRepository } from './repositories/posts.repository';
 export class PostsService {
   constructor(private readonly repository: PostsRepository) { }
 
-  create(createPostDto: CreatePostDto) {
-    return this.repository.create(createPostDto);
+  create(email: string, createPostDto: CreatePostDto) {
+    return this.repository.create(email, createPostDto);
   }
 
   findAll() {
@@ -19,8 +19,8 @@ export class PostsService {
     return this.repository.findOne(id);
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return this.repository.update(id, updatePostDto);
+  update(id: number, email: string, updatePostDto: UpdatePostDto) {
+    return this.repository.update(id, email, updatePostDto);
   }
 
   remove(id: number) {

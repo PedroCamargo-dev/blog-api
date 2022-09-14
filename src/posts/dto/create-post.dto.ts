@@ -11,8 +11,4 @@ export class CreatePostDto {
   @IsString()
   @IsOptional()
   content?: string;
-
-  @ApiProperty({ description: 'Email do autor do post' })
-  @IsEmail()
-  authorEmail: string;
 }

@@ -11,10 +11,8 @@ import { PostEntity } from '../entities/post.entity';
 export class PostsRepository {
   constructor(private readonly prisma: PrismaService) { }
 
-  async create(createPostDto: CreatePostDto): Promise<PostEntity> {
-    const { authorEmail } = createPostDto;
-
-    delete createPostDto.authorEmail;
+  async create(email: string, createPostDto: CreatePostDto): Promise<PostEntity> {
+    const authorEmail = email;
 
     const user = await this.prisma.user.findUnique({
       where: {
@@ -68,8 +66,8 @@ export class PostsRepository {
     });
   }
 
-  async update(id: number, updatePostDto: UpdatePostDto): Promise<PostEntity> {
-    const { authorEmail } = updatePostDto;
+  async update(id: number, email: string, updatePostDto: UpdatePostDto): Promise<PostEntity> {
+    const authorEmail = email;
 
     if (!authorEmail) {
       return this.prisma.post.update({
@@ -77,8 +75,6 @@ export class PostsRepository {
         where: { id },
       });
     }
-
-    delete updatePostDto.authorEmail;
 
     const user = await this.prisma.user.findUnique({
       where: {
