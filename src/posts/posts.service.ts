@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { UnauthorizedError } from 'src/common/errors/types/UnauthorizedError';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostsRepository } from './repositories/posts.repository';
@@ -7,11 +8,11 @@ import { PostsRepository } from './repositories/posts.repository';
 export class PostsService {
   constructor(private readonly repository: PostsRepository) { }
 
-  create(email: string, createPostDto: CreatePostDto) {
+  async create(email: string, createPostDto: CreatePostDto) {
     return this.repository.create(email, createPostDto);
   }
 
-  findAll() {
+  async findAll() {
     return this.repository.findAll();
   }
 
@@ -19,11 +20,17 @@ export class PostsService {
     return this.repository.findOne(id);
   }
 
-  update(id: number, email: string, updatePostDto: UpdatePostDto) {
+  async update(id: number, email: string, idUser: number, updatePostDto: UpdatePostDto) {
+    const post = await this.repository.findOne(id)
+
+    if (post.authorId !== idUser) {
+      throw new UnauthorizedError('Usefihbhivadbhi')
+    }
+
     return this.repository.update(id, email, updatePostDto);
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.repository.remove(id);
   }
 }

@@ -21,31 +21,31 @@ export class PostsController {
 
   @ApiForbiddenResponse({ description: 'Acesso negado.' })
   @Post()
-  create(@Request() req: AuthRequet, @Body() createPostDto: CreatePostDto) {
+  async create(@Request() req: AuthRequet, @Body() createPostDto: CreatePostDto) {
     return this.postsService.create(req.user.email, createPostDto);
   }
 
   @ApiForbiddenResponse({ description: 'Acesso negado.' })
   @Get()
-  findAll() {
+  async findAll() {
     return this.postsService.findAll();
   }
 
   @ApiForbiddenResponse({ description: 'Acesso negado.' })
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.postsService.findOne(+id);
   }
 
   @ApiForbiddenResponse({ description: 'Acesso negado.' })
   @Patch(':id')
-  update(@Param('id') id: string, @Request() req: AuthRequet, @Body() updatePostDto: UpdatePostDto) {
-    return this.postsService.update(+id, req.user.email, updatePostDto);
+  async update(@Param('id') id: string, @Request() req: AuthRequet, @Body() updatePostDto: UpdatePostDto) {
+    return this.postsService.update(+id, req.user.email, req.user.id, updatePostDto);
   }
 
   @ApiForbiddenResponse({ description: 'Acesso negado.' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.postsService.remove(+id);
   }
 }

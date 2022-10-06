@@ -9,11 +9,11 @@ import { UsersRepository } from './repositories/users.repository';
 export class UsersService {
   constructor(private readonly repository: UsersRepository) { }
 
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
     return this.repository.create(createUserDto);
   }
 
-  findUser(id: number) {
+  async findUser(id: number) {
     const user = this.repository.findUser(id);
 
     if (!user) {
@@ -33,7 +33,7 @@ export class UsersService {
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
     const user = this.repository.update(id, updateUserDto);
 
     if (!user) {
@@ -43,7 +43,7 @@ export class UsersService {
     return user;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     const user = this.repository.remove(id);
 
     if (!user) {
