@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { NotFoundError } from 'src/common/errors/types/NotFoundError';
+import { UnauthorizedError } from 'src/common/errors/types/UnauthorizedError';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePostDto } from '../dto/create-post.dto';
@@ -66,15 +67,14 @@ export class PostsRepository {
     });
   }
 
-  async update(id: number, email: string, updatePostDto: UpdatePostDto): Promise<PostEntity> {
-    const authorEmail = email;
+  async update(id: number, email: string, idUser: number, updatePostDto: UpdatePostDto): Promise<PostEntity> {
+    const post = await this.findOne(id)
 
-    if (!authorEmail) {
-      return this.prisma.post.update({
-        data: updatePostDto,
-        where: { id },
-      });
+    if (post.authorId !== idUser) {
+      throw new UnauthorizedError('You dont have permission.')
     }
+
+    const authorEmail = email;
 
     const user = await this.prisma.user.findUnique({
       where: {

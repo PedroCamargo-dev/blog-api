@@ -21,13 +21,7 @@ export class PostsService {
   }
 
   async update(id: number, email: string, idUser: number, updatePostDto: UpdatePostDto) {
-    const post = await this.repository.findOne(id)
-
-    if (post.authorId !== idUser) {
-      throw new UnauthorizedError('Usefihbhivadbhi')
-    }
-
-    return this.repository.update(id, email, updatePostDto);
+    return this.repository.update(id, email, idUser, updatePostDto);
   }
 
   async remove(id: number) {
