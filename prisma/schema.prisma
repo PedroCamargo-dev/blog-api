@@ -24,7 +24,7 @@ model User {
 
 model Post {
   id        Int      @id @default(autoincrement())
-  published Boolean  @default(false)
+  published Boolean  @default(true)
   title     String   @db.VarChar(255)
   content   String?
   createdAt DateTime @default(now())
