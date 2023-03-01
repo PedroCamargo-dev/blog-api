@@ -39,7 +39,7 @@ export class PostsRepository {
   }
 
   async findAll(): Promise<PostEntity[]> {
-    return this.prisma.post.findMany({
+    return await this.prisma.post.findMany({
       include: {
         author: {
           select: {
@@ -51,7 +51,7 @@ export class PostsRepository {
   }
 
   async findOne(id: number): Promise<PostEntity> {
-    return this.prisma.post.findUnique({
+    return await this.prisma.post.findUnique({
       where: {
         id,
       },
@@ -68,6 +68,10 @@ export class PostsRepository {
 
   async update(id: number, email: string, idUser: number, updatePostDto: UpdatePostDto): Promise<PostEntity> {
     const post = await this.findOne(id)
+
+    if (!post) {
+      throw new NotFoundError('Post not found or deleted.')
+    }
 
     if (post.authorId !== idUser) {
       throw new UnauthorizedError('You dont have permission.')
@@ -108,7 +112,7 @@ export class PostsRepository {
   }
 
   async remove(id: number): Promise<PostEntity> {
-    return this.prisma.post.delete({
+    return await this.prisma.post.delete({
       where: {
         id,
       },

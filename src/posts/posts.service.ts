@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { NotFoundError } from 'src/common/errors/types/NotFoundError';
 import { UnauthorizedError } from 'src/common/errors/types/UnauthorizedError';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -9,22 +10,35 @@ export class PostsService {
   constructor(private readonly repository: PostsRepository) { }
 
   async create(email: string, createPostDto: CreatePostDto) {
-    return this.repository.create(email, createPostDto);
+    const post = await this.repository.create(email, createPostDto);
+
+    if (!post) {
+      throw new UnauthorizedError('Title or content provided is incomplete')
+    }
+
+    return post
+
   }
 
   async findAll() {
-    return this.repository.findAll();
+    return await this.repository.findAll();
   }
 
-  findOne(id: number) {
-    return this.repository.findOne(id);
+  async findOne(id: number) {
+    const post = await this.repository.findOne(id);
+
+    if (!post) {
+      throw new NotFoundError('Post not found or deleted.')
+    }
+
+    return post;
   }
 
   async update(id: number, email: string, idUser: number, updatePostDto: UpdatePostDto) {
-    return this.repository.update(id, email, idUser, updatePostDto);
+    return await this.repository.update(id, email, idUser, updatePostDto);
   }
 
   async remove(id: number) {
-    return this.repository.remove(id);
+    return await this.repository.remove(id);
   }
 }
