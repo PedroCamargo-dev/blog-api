@@ -20,6 +20,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new DatabaseInterceptor());
   app.useGlobalInterceptors(new UnauthorizedInterceptor());
   app.useGlobalInterceptors(new NotFoundInterceptor());
-  await app.listen(process.env.PORT || 3000);
+  await app.listen(process.env.PORT || 3002);
 }
 bootstrap();

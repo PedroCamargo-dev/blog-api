@@ -6,7 +6,7 @@ services:
     entrypoint: .docker/entrypoint.sh
     container_name: blog-api-app
     ports:
-      - "3000:3000"
+      - "3002:3002"
       - "5555:5555"
     volumes:
       - .:/home/node/app
