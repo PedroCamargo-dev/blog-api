@@ -1,9 +1,15 @@
 FROM node:lts
 
+WORKDIR /app
+
+COPY package*.json ./
+
+COPY . .
+
 RUN npm install -g @nestjs/cli
 
-USER node
+RUN npm install
 
 EXPOSE 3002
 
-WORKDIR /home/node/app
+CMD ["npm", "run", "start:dev"]
