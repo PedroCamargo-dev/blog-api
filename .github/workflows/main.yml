@@ -59,4 +59,4 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: bash update.sh
+        script: bash blog/docker.sh
