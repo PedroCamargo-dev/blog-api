@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    build: .
+    image: pedrocamargo3008/api-blog-test:dev
     entrypoint: .docker/entrypoint.sh
     container_name: blog-api-app
     ports:
@@ -14,7 +14,7 @@ services:
       - db
 
   db:
-    build: .docker/postgres
+    image: pedrocamargo3008/api-postgres-test:dev
     container_name: blog-api-db
     restart: always
     tty: true
