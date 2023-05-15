@@ -34,7 +34,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Extract metadata (tags, labels) for Docker - postgres
-        id: meta
+        id: meta2
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: pedrocamargo3008/api-postgres-test
