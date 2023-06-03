@@ -63,7 +63,6 @@ jobs:
           procfile: Procfile
           # Path to an localized env file
           env_file: .env
-
   update_ssh_linode:
     name: Telling Linode Server to Update
     needs: 'push_to_registry'
